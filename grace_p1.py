@@ -6,8 +6,7 @@
 # Description: Library inventory manager
 # Collabs: N/a
 
-#read stock of books on init
-bookdict = {}
+bookdict = {}   #read stock of books on init
 
 def addbook(dict, title, count=1):
     #adds count to title, adds title if not in dict
@@ -15,27 +14,50 @@ def addbook(dict, title, count=1):
         dict[title] += count
         return
     dict.update({title: count})
-    
 
-#rem book, err if DNE
-def rembook(list, title):
-    pass
+def rembook(dict, title):
+    #rem book, err if DNE
+    if title in dict:
+        dict[title] -= 1     #decr book count if in dict && count > 0
+        if dict[title] < 1:
+            dict.pop(title)  #rm book from list if count < 1
+        return
+    print(f"I can't find '{title}' in my list. Please check title formatting.")
 
-#print stock
-def stockreport(list):
-    pass
+def stockreport(dict):
+    print('\nStock Report -')
+    for title in dict:
+        print(f" • '{title}' ({dict.get(title)})")
+    print()
 
 def populatelist(inlist):
     #load bookStock.txt into a dictionary on init
     file = open("bookStock.txt")
-    for line in file:             # grab book title
-        nextline = next(file)     # grab num of books
+    print()
+    for line in file:           # grab book title
+        nextline = next(file)   # grab num of books
         addbook(inlist, line.strip(), int(nextline.strip()))
 
+def inputloop():
+    print("-Welome to BookStock v0.0.1-")
+    usrinput = input("Please enter a command (or [q] to quit): ")
 
+    while usrinput != 'q':
+        if usrinput == 'a':
+            addbook(bookdict, input("What book would you like to add?: "))
+        if usrinput == 'r':
+            rembook(bookdict, input("What book would you like to remove?: "))
+        if usrinput == 'p':
+            stockreport(bookdict)
+        if usrinput == 'help':
+            print("[a] -> Add a book to the stock.")
+            print("[r] -> Remove a book from the stock.")
+            print("[p] -> Print a book stock report.")
 
-# start script ---------
+        usrinput = input("Please enter a command (or [q] to quit): ")
 
+    print("Goodbye")
+
+# start script ---
 populatelist(bookdict) #populates initlist in format [title, count]
-
-print(bookdict)
+inputloop()

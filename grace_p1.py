@@ -1,22 +1,22 @@
-# File: grace_p1.py
-# Author: Isaiah Grace
-# Date: 2022/3/7
-# Lab Section: Tuesday
-# Email: isaiah.grace@maine.edu
-# Description: Library inventory manager
-# Collabs: N/a
+# File:         grace_p1.py
+# Author:       Isaiah Grace
+# Date:         2022/3/7
+# Lab Section:  Tuesday
+# Email:        isaiah.grace@maine.edu
+# Description:  Library inventory manager
+# Collabs:      N/a
 
-bookdict = {}   #read stock of books on init
+#  ---Project 1---
 
-def addbook(dict, title, count=1):
-    #adds count to title, adds title if not in dict
-    if title in dict:
+bookdict = {}  #read stock of books on init
+
+def addbook(dict, title, count=1):  #adds count to title,
+    if title in dict:               #adds title if not in dict
         dict[title] += count
         return
     dict.update({title: count})
 
-def rembook(dict, title):
-    #rem book, err if DNE
+def rembook(dict, title):  #rem book, err if DNE
     if title in dict:
         dict[title] -= 1     #decr book count if in dict && count > 0
         if dict[title] < 1:
@@ -24,21 +24,20 @@ def rembook(dict, title):
         return
     print(f"I can't find '{title}' in my list. Please check title formatting.")
 
-def stockreport(dict):
+def stockreport(dict):  #print report on current book stock
     print('\nStock Report -')
     for title in dict:
         print(f" • '{title}' ({dict.get(title)})")
     print()
 
-def populatelist(inlist):
-    #load bookStock.txt into a dictionary on init
+def populatelist(inlist):  #load bookStock.txt into a dictionary on init
     file = open("bookStock.txt")
     print()
     for line in file:           # grab book title
         nextline = next(file)   # grab num of books
         addbook(inlist, line.strip(), int(nextline.strip()))
 
-def inputloop():
+def inputloop():  #logic handler for inputs, functions
     print("-Welome to BookStock v0.0.1-")
     usrinput = input("Please enter a command (or [q] to quit): ")
 
@@ -59,5 +58,5 @@ def inputloop():
     print("Goodbye")
 
 # start script ---
-populatelist(bookdict) #populates initlist in format [title, count]
+populatelist(bookdict)  #populates bookdict in format {title: count}
 inputloop()
